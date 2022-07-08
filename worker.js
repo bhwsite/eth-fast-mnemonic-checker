@@ -1,5 +1,7 @@
 var fs = require("fs")
-const { ethers } = require("ethers");
+const { ethers } = require("ethers")
+var tries = 0, hits = 0
+const delay = time => new Promise(res=>setTimeout(res,time));
 var words = fs.readFileSync("wordlist.txt", {encoding:'utf8', flag:'r'}).replace(/(\r)/gm, "").toLowerCase().split("\n")
 
 function gen12(words) {
@@ -8,10 +10,20 @@ function gen12(words) {
     return (shuffled.slice(0,n)).join(" ");
 }
 console.log("starting....")
-setInterval(function () {
+
+async function doCheck() {
+    tries++
     try {    
         var wall = ethers.Wallet.fromMnemonic(gen12(words))
-        fs.appendFileSync('hits.txt', wall.address + wall.privateKey);
+        fs.appendFileSync('hits.txt', wall.address + wall.privateKey)
+        hits++
+        console.log("+")
     } catch (e) {}
-}, 0)
+    await delay(0) // Prevent Call Stack Overflow
+    doCheck()
+}
+doCheck()
 
+setInterval(() => {
+    console.log("-")
+}, 0)

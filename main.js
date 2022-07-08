@@ -1,16 +1,43 @@
 const { fork } = require("child_process");
+var devnull = require("dev-null")
+const { program } = require('commander');
 var fs = require("fs")
+var tries = 0, hits = 0
 var children = []
-console.log("starting 12 processes")
 
-for(var i = 0; i < 12; i++){
-    children[i] = fork("test.js", [], { silent: true, detatched: false })
+program
+    .option("-c, --count <number>", "number of processes")
+
+var options = program.parse().opts()
+const count = parseInt(options.count) || 6
+console.log(`starting ${count} processes`)
+
+for(var i = 0; i < count; i++){
+    children[i] = fork("worker.js", [], { detatched: false, stdio: "pipe" })
+    children[i].stdout.setEncoding('utf8')
+    children[i].stdout.on("data", (data) => {
+        if(data == "+") {
+            hits++
+            tries++
+        } else {
+            tries++
+        }
+    }).pipe(devnull())
 }
 
 process.on("SIGTERM", () => {
     children.forEach((val) => {
-        val.kill()
+        val.kill("SIGTERM")
     })
 })
 
 console.log("all processes started")
+
+import('log-update').then(mod => {
+    const frames = ['-', '\\', '|', '/'];
+    var index = 0;
+    setInterval(() => {
+	    const frame = frames[index = ++index % frames.length];
+        mod.default(`${frame} tries: ${tries}; hits: ${hits} ${frame}`);
+    }, 1);
+});
