@@ -1,6 +1,5 @@
 var fs = require("fs")
 const { ethers } = require("ethers");
-var tries = 0;
 var words = fs.readFileSync("wordlist.txt", {encoding:'utf8', flag:'r'}).replace(/(\r)/gm, "").toLowerCase().split("\n")
 
 function gen12(words) {
@@ -10,7 +9,6 @@ function gen12(words) {
 }
 console.log("starting....")
 setInterval(function () {
-    tries++
     try {    
         var wall = ethers.Wallet.fromMnemonic(gen12(words))
         fs.appendFileSync('hits.txt', wall.address + wall.privateKey);
