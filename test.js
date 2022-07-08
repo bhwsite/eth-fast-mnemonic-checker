@@ -12,8 +12,6 @@ setInterval(function () {
     try {    
         var wall = ethers.Wallet.fromMnemonic(gen12(words))
         fs.appendFileSync('hits.txt', wall.address + wall.privateKey);
-    } catch (e) {
-            
-    }
+    } catch (e) {}
 }, 0)
 
