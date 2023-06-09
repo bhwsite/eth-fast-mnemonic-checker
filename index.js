@@ -14,7 +14,7 @@ const count = parseInt(options.count) || 6
 console.log(`starting ${count} processes`.yellow)
 
 for(var i = 0; i < count; i++){
-    children[i] = fork("worker.js", [], { detatched: false, stdio: "pipe" })
+    children[i] = fork("worker.js", [], { detached: false, stdio: "pipe" })
     children[i].stdout.setEncoding('utf8')
     children[i].stdout.on("data", (data) => {
         if(data == "+") {
