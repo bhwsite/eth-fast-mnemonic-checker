@@ -12,6 +12,8 @@
 - Run `npm install`
 - Run `node index.js`
 
+## To check balance:
+- node check-balances.js
 
 ### If you are lucky, you will see something like this:
 (p.s. this one took about ~7 hours, there is no ETA, it depends on your luck and computing power)
