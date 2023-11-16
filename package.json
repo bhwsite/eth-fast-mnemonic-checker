@@ -1,10 +1,13 @@
 {
-  "name": "ethereum-fast-brute-forcer",
-  "version": "1.0.0",
-  "description": "Brute force ethereum wallet mnemonics. Multi-threaded and suprisingly fast.",
+  "name": "ethereum-fast-mnemonic-private-key-checker",
+  "version": "1.1.0",
+  "description": "Ethereum mnemonic private keys bruteforcer and checker. Multithreaded ultra fast",
   "main": "index.js",
   "keywords": [
     "ethereum",
+    "eth",
+    "checker",
+    "cracker",
     "brute",
     "force",
     "mnemonic",
